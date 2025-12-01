@@ -20,6 +20,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install Chrome and Chromedriver
+        run: |
+          sudo apt update
+          sudo apt install -y chromium-browser chromium-chromedriver
+          export PATH=$PATH:/usr/lib/chromium-browser/
+
       - name: Run scraper
         env:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}

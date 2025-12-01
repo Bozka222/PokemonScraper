@@ -9,6 +9,8 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")  # important for Linux runners
+    options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument(
