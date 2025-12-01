@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as ec
 
 def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     options = Options()
+    options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")  # important for Linux runners
