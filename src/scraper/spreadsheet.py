@@ -1,6 +1,10 @@
+import os
+import json
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+
+service_account_info = json.loads(os.environ['GCP_SERVICE_ACCOUNT'])
 
 def update_excel(prices: dict[str, str]) -> None:
     # Authenticate
@@ -8,8 +12,8 @@ def update_excel(prices: dict[str, str]) -> None:
         "https://www.googleapis.com/auth/spreadsheets", # Editing
         "https://www.googleapis.com/auth/drive" # List/Open by name
     ]
-    CREDS = Credentials.from_service_account_file("service_account.json", scopes=SCOPES)
-    gc = gspread.authorize(CREDS)
+    credentials = Credentials.from_service_account_info(service_account_info, scopes=SCOPES)
+    gc = gspread.authorize(credentials)
 
     sh = gc.open("PokemonScraper")
     ws = sh.worksheet("List 1")

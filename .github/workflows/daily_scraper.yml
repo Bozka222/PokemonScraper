@@ -1,0 +1,26 @@
+name: Daily Pokemon Scraper
+
+on:
+  schedule:
+    - cron: '0 11 * * *'  # every day at 08:00 UTC
+  workflow_dispatch:       # allows manual run
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        env:
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        run: python src/scraper/__main__.py
