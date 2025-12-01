@@ -30,3 +30,10 @@ jobs:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           PYTHONPATH: src
         run: python src/scraper/__main__.py
+
+      - name: Upload page HTML artifacts
+        if: always()  # upload even if script fails
+        uses: actions/upload-artifact@v3
+        with:
+          name: page-html
+          path: '*.html'
