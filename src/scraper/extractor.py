@@ -27,6 +27,9 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
         print(f"Fetching: {name}")
         try:
             driver.get(url)
+            with open("page.html", "w", encoding="utf-8") as f:
+                f.write(driver.page_source)
+
             price_element = WebDriverWait(driver, 15).until(
                 ec.visibility_of_element_located(
                     (By.XPATH, "//dt[contains(text(), 'From')]/following-sibling::dd[1]")
