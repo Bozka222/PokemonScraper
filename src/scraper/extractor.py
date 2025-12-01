@@ -7,11 +7,12 @@ from selenium.webdriver.support import expected_conditions as ec
 
 def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     options = Options()
-    options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
+    # options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")  # important for Linux runners
     options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
+    options.add_argument("--disable-extensions")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument(
@@ -19,6 +20,9 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/120.0.0.0 Safari/537.36"
     )
+
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
 
     driver = webdriver.Chrome(options=options)
     prices = {}
