@@ -23,4 +23,5 @@ jobs:
       - name: Run scraper
         env:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          PYTHONPATH: src
         run: python src/scraper/__main__.py
