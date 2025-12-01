@@ -1,20 +1,26 @@
-from openpyxl import load_workbook
+import gspread
+from google.oauth2.service_account import Credentials
 from datetime import datetime
-from pathlib import Path
+
+def update_excel(prices: dict[str, str]) -> None:
+    # Authenticate
+    SCOPES = [
+        "https://www.googleapis.com/auth/spreadsheets", # Editing
+        "https://www.googleapis.com/auth/drive" # List/Open by name
+    ]
+    CREDS = Credentials.from_service_account_file("service_account.json", scopes=SCOPES)
+    gc = gspread.authorize(CREDS)
+
+    sh = gc.open("PokemonScraper")
+    ws = sh.worksheet("List 1")
 
 
-def update_excel(prices: dict[str, float], spreadsheet_path: Path) -> None:
-    wb = load_workbook(spreadsheet_path)
-    sheet = wb["List2"]
-    # print(sheet.max_row, sheet.min_row, sheet.max_column, sheet.min_column)
-
-    # Expect product names in column A;
-    # write price into column B.
-    for row in range(1, sheet.max_row + 1):
-        product_name = sheet[f"A{row}"].value.strip().lower()
+    # Loop over rows and update column B and C
+    records = ws.get_all_records()
+    for i, row in enumerate(records, start=2):  # start=2 because row 1 is header
+        product_name = row['Product Name']  # assuming column A header is "Product Name"
         if product_name in prices:
-            sheet[f"B{row}"] = prices[product_name]
-            sheet[f"C{row}"] = datetime.now().strftime("%Y-%m-%d")  # optional timestamp
+            ws.update(values=[[prices[product_name]]], range_name=f"B{i}")
+            ws.update(values=[[datetime.now().strftime("%Y-%m-%d")]], range_name=f"C{i}")
 
-    wb.save(spreadsheet_path)
     print("Excel updated ✔")

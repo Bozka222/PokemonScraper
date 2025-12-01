@@ -1,4 +1,4 @@
+gspread==6.2.1
+google-auth==2.43.0
 selenium==4.38.0
 requests==2.32.5
-beautifulsoup4==4.14.3
-openpyxl==3.1.5

@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 
-def get_prices(url_dict: dict[str, str]) -> dict[str, float]:
+def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     options = Options()
     options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
@@ -30,9 +30,8 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, float]:
                 )
             )
             price_text = price_element.text.strip()
-            price = float(price_text.replace("€", "").strip().replace(",", "."))
-            prices[name] = price
-            print(f" → Price: {price}")
+            prices[name] = price_text
+            print(f" → Price: {price_text}")
         except Exception as e:
             print(f"Failed to get price for {name}: {e}")
             prices[name] = None

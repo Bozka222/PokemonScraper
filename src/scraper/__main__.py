@@ -16,12 +16,10 @@ PRODUCTS = {
     "Groudon DP5c": "https://www.cardmarket.com/en/Pokemon/Products/Singles/Cry-from-the-Mysterious/Groudon-Lv45-DP5c",
 }
 
-EXCEL_PATH = Path("C:\\Users\\bochj\\Desktop\\Groudon_TCG.xlsx")
-
 
 def main():
     prices = get_prices(url_dict=PRODUCTS)
-    update_excel(prices=prices, spreadsheet_path=EXCEL_PATH)
+    update_excel(prices=prices)
 
 if __name__ == "__main__":
     main()
