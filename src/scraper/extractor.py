@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,12 +22,13 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     #     "Chrome/120.0.0.0 Safari/537.36"
     # )
 
-    options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
+    # options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
 
+    service = Service('/usr/local/bin/chromedriver')
     # options.add_experimental_option("excludeSwitches", ["enable-automation"])
     # options.add_experimental_option("useAutomationExtension", False)
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(service=service, options=options)
     prices = {}
 
     for name, url in url_dict.items():
