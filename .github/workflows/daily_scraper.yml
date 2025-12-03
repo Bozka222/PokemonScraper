@@ -42,11 +42,14 @@ jobs:
           chmod +x chromedriver-linux64/chromedriver
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/
 
+      - name: Install Xvfb
+        run: sudo apt-get install xvfb
+
       - name: Run scraper
         env:
           GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
           PYTHONPATH: src
-        run: python src/scraper/__main__.py
+        run: xvfb-run -a python src/scraper/__main__.py
 
       - name: Upload page HTML artifacts
         if: always()

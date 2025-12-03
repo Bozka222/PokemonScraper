@@ -1,3 +1,4 @@
+import time
 import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -42,6 +43,7 @@ def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
         print(f"Fetching: {name}")
         try:
             driver.get(url)
+            time.sleep(3)
             with open("page.html", "w", encoding="utf-8") as f:
                 f.write(driver.page_source)
 
