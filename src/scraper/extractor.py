@@ -4,31 +4,32 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 def get_prices(url_dict: dict[str, str]) -> dict[str, str]:
     options = Options()
-    options.add_argument("--headless")
+    options.add_argument("--headless=new")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")  # important for Linux runners
     options.add_argument("--disable-dev-shm-usage")  # avoid memory issues
     options.add_argument("--disable-extensions")
-    options.add_argument('--start-maximized')
-    # options.add_argument("--window-size=1920,1080")
+    # options.add_argument('--start-maximized')
+    options.add_argument("--window-size=1920,1080")
     # options.add_argument("--disable-blink-features=AutomationControlled")
-    # options.add_argument(
-    #     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    #     "AppleWebKit/537.36 (KHTML, like Gecko) "
-    #     "Chrome/120.0.0.0 Safari/537.36"
-    # )
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/120.0.0.0 Safari/537.36"
+    )
 
     # options.binary_location = "/usr/bin/chromium-browser"  # important for GitHub Actions
 
-    service = Service('/usr/local/bin/chromedriver')
+    # service = Service('/usr/local/bin/chromedriver')
     # options.add_experimental_option("excludeSwitches", ["enable-automation"])
     # options.add_experimental_option("useAutomationExtension", False)
 
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     prices = {}
 
     for name, url in url_dict.items():
